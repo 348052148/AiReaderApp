@@ -26,7 +26,7 @@ class VerticalBook extends StatelessWidget {
             ),
             //详情
             Container(
-              height: ScreenUtil().setHeight(280),
+              height: ScreenUtil().setHeight(250),
 //              padding: EdgeInsets.fromLTRB(15, 15, 5, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +60,7 @@ class VerticalBook extends StatelessWidget {
             )
           ],
         ),
-        height: ScreenUtil().setHeight(320),
+        height: ScreenUtil().setHeight(300),
         color: Colors.white,
       ),
     );

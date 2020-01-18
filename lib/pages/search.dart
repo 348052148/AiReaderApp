@@ -1,4 +1,5 @@
 import 'package:aireder/components/book/verticalbook.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,7 +83,7 @@ class _Search extends State {
         ),
         Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          padding: EdgeInsets.fromLTRB(3, 2, 3, 8),
           child: Wrap(
             children: RenderTags([
               "我欲封天",
@@ -96,7 +97,7 @@ class _Search extends State {
               "黑色星期五"
             ]),
           ),
-        )
+        ),
       ],
     );
   }
@@ -114,7 +115,7 @@ class _Search extends State {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.blue),
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(8),
                   margin: EdgeInsets.only(right: 6, top: 6),
                   child: Text(
                     item,
@@ -167,7 +168,7 @@ class _Search extends State {
         ),
         Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          padding: EdgeInsets.fromLTRB(3, 2, 3, 8),
           child: Wrap(
             children: RenderTags([
               "我欲封天",
@@ -186,7 +187,7 @@ class _Search extends State {
               "黑色星期五"
             ]),
           ),
-        )
+        ),
       ],
     );
   }
