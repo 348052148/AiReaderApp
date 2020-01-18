@@ -88,7 +88,16 @@ class _HomePage extends State {
               );
             }
           } else {
-            return VerticalBook();
+            return Column(
+              children: <Widget>[
+                //分割线构造器
+                VerticalBook(),
+                Divider(
+                  height: 2,
+                  color: Colors.blue,
+                ),
+              ],
+            );
 //                    return ListTile(leading: Book(),);
           }
         }, childCount: _items.length + 1),
@@ -123,8 +132,8 @@ class _HomePage extends State {
               ))
             ],
           ),
-          height: ScreenUtil().setHeight(82),
-          margin: EdgeInsets.fromLTRB(5, 25, 0, 5),
+          height: ScreenUtil().setHeight(80),
+          margin: EdgeInsets.fromLTRB(10, 26, 10, 0),
         ));
     return SliverPersistentHeader(
       pinned: true, //是否固定在顶部
@@ -165,6 +174,9 @@ class _HomePage extends State {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance =
+        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
+          ..init(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -182,6 +194,11 @@ class _HomePage extends State {
                     sliver: new SliverList(
                       delegate: new SliverChildListDelegate(
                         <Widget>[
+                          //填充顶部
+                          Container(
+                            height: ScreenUtil().setHeight(40),
+                            color: Color.fromARGB(20, 255, 255, 255),
+                          ),
                           HomeSwiper(),
                           BookTopic(
                             title: "热门",

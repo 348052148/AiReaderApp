@@ -50,7 +50,7 @@ class _BookShelf extends State with SingleTickerProviderStateMixin {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Scaffold(
       appBar: new PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
+          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
           child: AppBar(
             automaticallyImplyLeading: false,
             title: new TabBar(

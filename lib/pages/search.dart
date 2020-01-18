@@ -19,7 +19,7 @@ class _Search extends State {
           ..init(context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
+          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
           child: AppBar(
             title: Text(
               "搜索",

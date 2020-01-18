@@ -1,5 +1,6 @@
 import 'package:aireder/components/book/verticalbook.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookListPage extends StatefulWidget {
   @override
@@ -79,8 +80,15 @@ class _BookListState extends State<BookListPage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance =
+        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
+          ..init(context);
     return Scaffold(
-      appBar: AppBar(title: Text("书籍列表"),),
+      appBar: new PreferredSize(
+          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
+          child: AppBar(
+            title: Text("书籍列表"),
+          )),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: RenderBooks(),

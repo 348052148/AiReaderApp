@@ -7,7 +7,7 @@ class SetingPage extends StatelessWidget {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
+          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
           child: AppBar(
             title: Text("设置", style: TextStyle(fontSize: 16)),
           )),
@@ -43,9 +43,9 @@ class SetingPage extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-            width: ScreenUtil().setWidth(720),
-            height: ScreenUtil().setHeight(100),
+            margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
+            width: ScreenUtil().setWidth(710),
+            height: ScreenUtil().setHeight(80),
             child: FlatButton(
               onPressed: () {},
               child: Text("退出登陆", style: TextStyle(color: Colors.white, fontSize: 17),),

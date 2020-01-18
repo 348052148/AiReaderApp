@@ -17,7 +17,7 @@ class _User extends State {
     ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
+          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
           child: AppBar(
             automaticallyImplyLeading: false,
             title: Text("个人中心", style: TextStyle(fontSize: 16)),

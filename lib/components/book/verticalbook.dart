@@ -14,21 +14,24 @@ class VerticalBook extends StatelessWidget {
       child: Container(
         child: Row(
           children: <Widget>[
-            Padding(
+            Container(
               child: Image(
+                alignment: Alignment.topLeft,
                 image: new NetworkImage(
                     'https://api.rbxgg.cn/book/image/9530a3acb52c98d1b795e7f3925d2a62.jpeg'),
                 width: ScreenUtil().setWidth(200),
                 height: ScreenUtil().setHeight(280),
               ),
-              padding: EdgeInsets.fromLTRB(15, 5, 0, 5),
+              padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
             ),
+            //详情
             Container(
-              padding: EdgeInsets.fromLTRB(15, 15, 5, 5),
+              height: ScreenUtil().setHeight(280),
+//              padding: EdgeInsets.fromLTRB(15, 15, 5, 5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
+                  Container(
                     child: Text(
                       "元尊",
                       style:
@@ -36,7 +39,6 @@ class VerticalBook extends StatelessWidget {
                       textAlign: TextAlign.left,
                       strutStyle: StrutStyle(height: 2),
                     ),
-                    padding: EdgeInsets.only(top: 12),
                   ),
                   Padding(
                     child: Text("作者：天蚕土豆"),
@@ -58,7 +60,7 @@ class VerticalBook extends StatelessWidget {
             )
           ],
         ),
-        height: ScreenUtil().setHeight(410),
+        height: ScreenUtil().setHeight(320),
         color: Colors.white,
       ),
     );
