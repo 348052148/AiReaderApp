@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SetingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
           child: AppBar(
             title: Text("设置", style: TextStyle(fontSize: 16)),
           )),
@@ -43,8 +44,8 @@ class SetingPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-            width: 360,
-            height: 50,
+            width: ScreenUtil().setWidth(720),
+            height: ScreenUtil().setHeight(100),
             child: FlatButton(
               onPressed: () {},
               child: Text("退出登陆", style: TextStyle(color: Colors.white, fontSize: 17),),

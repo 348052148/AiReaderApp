@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VerticalBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/book');
@@ -16,8 +18,8 @@ class VerticalBook extends StatelessWidget {
               child: Image(
                 image: new NetworkImage(
                     'https://api.rbxgg.cn/book/image/9530a3acb52c98d1b795e7f3925d2a62.jpeg'),
-                width: 100,
-                height: 160,
+                width: ScreenUtil().setWidth(200),
+                height: ScreenUtil().setHeight(280),
               ),
               padding: EdgeInsets.fromLTRB(15, 5, 0, 5),
             ),
@@ -41,7 +43,7 @@ class VerticalBook extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
                   ),
                   Container(
-                    width: 265,
+                    width: ScreenUtil().setWidth(465),
                     child: Text(
                       "介绍:    穷困潦倒的漫画家米航，为了缴付“昂贵”的租金，接受了位面的邀请，" +
                           "成为穿梭诸天位面的赏金猎人。拯救木叶、逃离长空市、忍神山的战争、藏剑山庄，" +
@@ -56,7 +58,7 @@ class VerticalBook extends StatelessWidget {
             )
           ],
         ),
-        height: 180,
+        height: ScreenUtil().setHeight(410),
         color: Colors.white,
       ),
     );

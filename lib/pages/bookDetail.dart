@@ -1,6 +1,7 @@
 import 'package:aireder/components/book/verticalbook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookDetailPage extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class BookDetailPage extends StatefulWidget {
 
 class _BookDetail extends State {
   Widget RenderBookinfo() {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Stack(
       children: <Widget>[
         Container(
@@ -22,8 +24,8 @@ class _BookDetail extends State {
               children: <Widget>[
                 Image.network(
                   "https://api.rbxgg.cn/book/image/a3d32edbfbff45691b71d1a0b3f89c7c.jpeg",
-                  width: 140,
-                  height: 180,
+                  width: ScreenUtil().setWidth(280),
+                  height: ScreenUtil().setHeight(360),
                 ),
                 Text(
                   "圣墟",
@@ -34,7 +36,7 @@ class _BookDetail extends State {
                   style: TextStyle(color: Colors.black54),
                 ),
                 Container(
-                  width: 230,
+                  width: ScreenUtil().setWidth(460),
                   child: Row(
                     children: <Widget>[
                       Padding(
@@ -100,9 +102,10 @@ class _BookDetail extends State {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50),
+        preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
         child: AppBar(
           title: Text(
             "书籍详情",

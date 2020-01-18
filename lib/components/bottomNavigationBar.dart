@@ -27,8 +27,8 @@ class _BottomNavigationBarViewState extends State<BottomNavigationBarView> with 
     setState(() {
       _currentIndex = this.defaultIndex;
       _navigationViews = [
-        NavigationIconView(icon: new Icon(Icons.assessment), title: new Text("首页"), vsync: this),
-        NavigationIconView(icon: new Icon(Icons.add_shopping_cart), title: new Text("书架"), vsync: this),
+        NavigationIconView(icon: new Icon(Icons.home), title: new Text("首页"), vsync: this),
+        NavigationIconView(icon: new Icon(Icons.book), title: new Text("书架"), vsync: this),
         NavigationIconView(icon: new Icon(Icons.perm_identity), title: new Text("个人"), vsync: this),
       ];
     });

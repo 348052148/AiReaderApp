@@ -1,6 +1,7 @@
 import 'package:aireder/components/book/verticalbook.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -13,26 +14,29 @@ class SearchPage extends StatefulWidget {
 class _Search extends State {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    ScreenUtil.instance =
+        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
+          ..init(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "搜索",
-          style: TextStyle(fontSize: 16),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: SearchBarDelegate());
-            },
-          )
-        ],
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
+          child: AppBar(
+            title: Text(
+              "搜索",
+              style: TextStyle(fontSize: 16),
+            ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(context: context, delegate: SearchBarDelegate());
+                },
+              )
+            ],
+          )),
+      body: Column(
+        children: <Widget>[RenderHotSearch(), RenderHostorySearch()],
       ),
-      body: Column(children: <Widget>[
-        RenderHotSearch(),
-        RenderHostorySearch()
-      ],),
     );
   }
 
@@ -78,28 +82,47 @@ class _Search extends State {
         ),
         Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: GridView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(vertical: 0),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
-              childAspectRatio: 2,
-            ),
-            children: ["我欲封天", "斗罗大陆", "魔法学院", "天尊", "鱼人二代", "黑色星期五"]
-                .map((item) => Center(
-                      child: Text(
-                        item,
-                        style:
-                            TextStyle(background: Paint()..color = Colors.blue),
-                      ),
-                    ))
-                .toList(),
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          child: Wrap(
+            children: RenderTags([
+              "我欲封天",
+              "斗罗大陆",
+              "魔法学院",
+              "天尊",
+              "鱼人二代",
+              "123",
+              "天尊",
+              "鱼人二代",
+              "黑色星期五"
+            ]),
           ),
         )
       ],
     );
+  }
+
+  List<Widget> RenderTags(List<String> tags) {
+    return tags
+        .map((item) => GestureDetector(
+              onTap: () {
+                showSearch(
+                    context: context,
+                    delegate: SearchBarDelegate(),
+                    query: "斗罗");
+              },
+              child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.blue),
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(right: 6, top: 6),
+                  child: Text(
+                    item,
+                    style: TextStyle(
+                        background: Paint()..color = Colors.blue, height: 1.2),
+                  )),
+            ))
+        .toList();
   }
 
   Widget RenderHostorySearch() {
@@ -144,24 +167,24 @@ class _Search extends State {
         ),
         Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: GridView(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.symmetric(vertical: 0),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
-              childAspectRatio: 2,
-            ),
-            children: ["我欲封天", "斗罗大陆", "魔法学院", "天尊", "鱼人二代", "黑色星期五"]
-                .map((item) => Center(
-              child: Text(
-                item,
-                style:
-                TextStyle(background: Paint()..color = Colors.blue),
-              ),
-            ))
-                .toList(),
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+          child: Wrap(
+            children: RenderTags([
+              "我欲封天",
+              "斗罗大陆",
+              "魔法学院",
+              "天尊",
+              "鱼人二代",
+              "黑色星期五",
+              "我欲封天",
+              "斗罗大陆",
+              "魔法学院",
+              "12331231",
+              "123",
+              "天尊",
+              "鱼人二代",
+              "黑色星期五"
+            ]),
           ),
         )
       ],

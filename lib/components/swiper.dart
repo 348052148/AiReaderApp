@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomeSwiper extends StatefulWidget {
@@ -18,9 +19,10 @@ class _HomeSwiperState extends State {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: 180.0,
+        height: ScreenUtil().setHeight(400),
         child: Swiper(
           itemBuilder: (c, i) {
             return (Image.network(

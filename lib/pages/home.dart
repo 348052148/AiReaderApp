@@ -3,6 +3,7 @@ import 'package:aireder/components/bookTopic.dart';
 import 'package:aireder/components/bottomNavigationBar.dart';
 import 'package:aireder/components/swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -53,6 +54,9 @@ class _HomePage extends State {
   }
 
   Widget RenderBooks() {
+    ScreenUtil.instance =
+        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
+          ..init(context);
     return new SliverPadding(
       padding: const EdgeInsets.all(0.0),
       sliver: new SliverList(
@@ -65,8 +69,8 @@ class _HomePage extends State {
                 padding: EdgeInsets.all(16.0),
                 alignment: Alignment.center,
                 child: SizedBox(
-                  width: 24.0,
-                  height: 24.0,
+                  width: ScreenUtil().setWidth(48),
+                  height: ScreenUtil().setHeight(48),
                   child: CircularProgressIndicator(
                     strokeWidth: 2.0,
                   ),
@@ -93,28 +97,35 @@ class _HomePage extends State {
   }
 
   Widget RenderSearch() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.black26, width: 1),
-        color: Colors.white,
-      ),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            child: Icon(Icons.search),
-            padding: EdgeInsets.all(4),
+    ScreenUtil.instance =
+        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
+          ..init(context);
+    return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/search');
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.black26, width: 1),
+            color: Colors.white,
           ),
-          Center(
-              child: Text(
+          child: Row(
+            children: <Widget>[
+              Padding(
+                child: Icon(Icons.search),
+                padding: EdgeInsets.all(4),
+              ),
+              Center(
+                  child: Text(
                 "全网书籍搜索",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200),
               ))
-        ],
-      ),
-      height: 40,
-      margin: EdgeInsets.fromLTRB(5, 25, 0, 5),
-    );
+            ],
+          ),
+          height: ScreenUtil().setHeight(82),
+          margin: EdgeInsets.fromLTRB(5, 25, 0, 5),
+        ));
     return SliverPersistentHeader(
       pinned: true, //是否固定在顶部
       floating: true,
