@@ -48,8 +48,8 @@ class _BookListState extends State<BookListPage> {
                 padding: EdgeInsets.all(16.0),
                 alignment: Alignment.center,
                 child: SizedBox(
-                  width: 24.0,
-                  height: 24.0,
+                  width: ScreenUtil().setWidth(48),
+                  height: ScreenUtil().setWidth(48),
                   child: CircularProgressIndicator(
                     strokeWidth: 2.0,
                   ),
@@ -76,7 +76,7 @@ class _BookListState extends State<BookListPage> {
         separatorBuilder: (context, index) {
           return new Divider(
             height: 2,
-            color: Colors.blue,
+            color: Colors.black12,
           );
         },
         //_items.length + 1是为了给最后一行的加载loading留出位置
@@ -88,7 +88,7 @@ class _BookListState extends State<BookListPage> {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       appBar: new PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
+          preferredSize: Size.fromHeight(ScreenUtil().setWidth(140)),
           child: AppBar(
             title: Text("书籍列表"),
           )),

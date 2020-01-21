@@ -14,10 +14,10 @@ class UserPage extends StatefulWidget {
 class _User extends State {
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);;
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
+          preferredSize: Size.fromHeight(ScreenUtil().setWidth(140)),
           child: AppBar(
             automaticallyImplyLeading: false,
             title: Text("个人中心", style: TextStyle(fontSize: 16)),
@@ -34,8 +34,8 @@ class _User extends State {
                 Container(
                   child: Image.network(
                     "http://img.zcool.cn/community/01b7645deb9963a801213853840618.png@1280w_1l_2o_100sh.png",
-                    width: ScreenUtil().setWidth(160),
-                    height: ScreenUtil().setHeight(160),
+                    width: ScreenUtil().setWidth(200),
+                    height: ScreenUtil().setWidth(200),
                   ),
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(10)),

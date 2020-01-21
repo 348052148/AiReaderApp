@@ -94,7 +94,7 @@ class _LoginPageState extends State {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     print(ScreenUtil().scaleHeight);
     // logo 图片区域
     Widget logoImageArea = new Container(

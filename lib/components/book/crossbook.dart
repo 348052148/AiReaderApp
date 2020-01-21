@@ -10,7 +10,6 @@ class CrossBook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     //默认设置宽度1080px，高度1920px
     return GestureDetector(
       onTap: () {
@@ -20,13 +19,16 @@ class CrossBook extends StatelessWidget {
 //        color: Colors.blue,
         child: Column(children: <Widget>[
           Container(
+            alignment: Alignment.topCenter,
 //            color: Colors.red,
             child: Image(
               fit: BoxFit.fill,
               image: new NetworkImage(book.cover),
               width: ScreenUtil().setWidth(300),
-              height: ScreenUtil().setHeight(440),
+              height: ScreenUtil().setWidth(400),
             ),
+            width: ScreenUtil().setWidth(300),
+            height: ScreenUtil().setWidth(400),
           ),
           Text(
             book.title,
@@ -41,7 +43,6 @@ class CrossBook extends StatelessWidget {
             strutStyle: StrutStyle(height: 1.6),
           )
         ]),
-        height: ScreenUtil().setHeight(580),
       ),
     );
   }

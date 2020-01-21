@@ -78,7 +78,7 @@ class BookTopic extends StatelessWidget {
             padding: EdgeInsets.only(top: 15),
             child: Divider(
               height: 2,
-              color: Colors.black54,
+              color: Colors.black12,
             ),
           ),
         ],

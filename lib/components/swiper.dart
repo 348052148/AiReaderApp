@@ -4,16 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-class HomeSwiper extends StatelessWidget {
+class HomeSwiper extends StatefulWidget {
   HomeSwiper({this.bannars});
   List<Bannar> bannars;
   @override
+  State<StatefulWidget> createState() {
+    return _HomeSwiper(bannars: bannars);
+  }
+}
+
+class _HomeSwiper extends State {
+  _HomeSwiper({this.bannars});
+  List<Bannar> bannars;
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: ScreenUtil().setHeight(400),
+        height: ScreenUtil().setHeight(600),
         child: Swiper(
           itemBuilder: (c, i) {
             return (Image.network(
@@ -29,7 +36,7 @@ class HomeSwiper extends StatelessWidget {
               )),
           control: new SwiperControl(),
           scrollDirection: Axis.horizontal,
-          autoplay: true,
+          autoplay: false,
           onTap: (index) => print('点击了第$index个'),
         ));
   }

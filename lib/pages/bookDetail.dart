@@ -26,10 +26,9 @@ class _BookDetail extends State {
               children: <Widget>[
                 Image.network(
                   book.cover,
-                  fit:BoxFit.fill,
-//                  "http://s2.zimgs.cn/ims?kt=url&at=novel&key=aHR0cHM6Ly93d3cuYnh3eC5pby9maWxlcy9hcnRpY2xlL2ltYWdlLzEyMi8xMjI0OTgvMTIyNDk4cy5qcGc=&sign=yx:G1L6fvMNxy8W89_FSiz4UYKoIWU=&tv=320_320&x.jpg",
-                  width: ScreenUtil().setWidth(240),
-                  height: ScreenUtil().setHeight(350),
+                  fit: BoxFit.fill,
+                  width: ScreenUtil().setWidth(340),
+                  height: ScreenUtil().setWidth(450),
                 ),
                 Text(
                   book.title,
@@ -40,7 +39,8 @@ class _BookDetail extends State {
                   style: TextStyle(color: Colors.black54),
                 ),
                 Container(
-                  width: ScreenUtil().setWidth(400),
+                  alignment: Alignment.center,
+                  width: ScreenUtil().setWidth(650),
                   child: Row(
                     children: <Widget>[
                       Padding(
@@ -121,7 +121,7 @@ class _BookDetail extends State {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
+        preferredSize: Size.fromHeight(ScreenUtil().setWidth(140)),
         child: AppBar(
           title: Text(
             "书籍详情",
@@ -192,9 +192,9 @@ class _RecommendBooks extends State {
   Widget RenderBody() {
     return Column(
       children: <Widget>[
-//        VerticalBook(),
-//        VerticalBook(),
-//        VerticalBook(),
+        VerticalBook(book: Book.fromMap({'title': '元尊', 'author': '天蚕土豆', 'cover': "https://cdn.static.17k.com/book/189x272/66/50/2945066.jpg-189x272?v=0", "detail":"要么断言表明框架本身存在错误"}),),
+        VerticalBook(book: Book.fromMap({'title': '元尊', 'author': '天蚕土豆', 'cover': "https://cdn.static.17k.com/book/189x272/66/50/2945066.jpg-189x272?v=0", "detail":"要么断言表明框架本身存在错误"}),),
+        VerticalBook(book: Book.fromMap({'title': '元尊', 'author': '天蚕土豆', 'cover': "https://cdn.static.17k.com/book/189x272/66/50/2945066.jpg-189x272?v=0", "detail":"要么断言表明框架本身存在错误"}),),
       ],
     );
   }

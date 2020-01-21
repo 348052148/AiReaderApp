@@ -11,8 +11,6 @@ class VerticalBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
-    print(ScreenUtil.screenWidth);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/book', arguments: {"book": book});
@@ -24,19 +22,19 @@ class VerticalBook extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               height: ScreenUtil().setHeight(500),
-              padding: EdgeInsets.only(left: 5),
+              padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
               child: Image(
                 fit: BoxFit.fill,
                 alignment: Alignment.topLeft,
                 image: new NetworkImage(book.cover),
                 width: ScreenUtil().setWidth(300),
-                height: ScreenUtil().setHeight(450),
+                height: ScreenUtil().setWidth(400),
               ),
 //              color: Colors.blue,
             ),
 //            详情
             Container(
-              width: ScreenUtil().setWidth(1080 - 340),
+              width: ScreenUtil().setWidth(1080 - 350),
               padding: EdgeInsets.only(left: 10),
 //                color: Colors.red,
               child: Column(
@@ -45,21 +43,22 @@ class VerticalBook extends StatelessWidget {
                   Expanded(
                     child: Text(
                       book.title,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       textAlign: TextAlign.left,
                       strutStyle: StrutStyle(height: 2),
                     ),
                   ),
                   Expanded(
-                    child: Text("作者：" + book.author),
+                    child: Text("作者：" + book.author, style: TextStyle(color: Colors.black38),),
                   ),
                   Expanded(
                     child: Text(
-                      book.detail,
+                      book.detail.trim(),
                       softWrap: true,
-                      strutStyle: StrutStyle(height: 1.6),
+                      strutStyle: StrutStyle(height: 1.2),
                       maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     flex: 3,
                   )
@@ -68,8 +67,12 @@ class VerticalBook extends StatelessWidget {
             )
           ],
         ),
-        height: ScreenUtil().setHeight(450),
-        padding: EdgeInsets.all(5),
+        height: ScreenUtil().setWidth(450),
+        padding: EdgeInsets.only(
+            left: ScreenUtil().setWidth(20),
+            top: ScreenUtil().setWidth(10),
+            right: ScreenUtil().setWidth(10),
+            bottom: ScreenUtil().setWidth(10)),
         color: Colors.white,
       ),
     );

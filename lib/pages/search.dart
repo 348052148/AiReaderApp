@@ -9,20 +9,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SearchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _Search();
   }
 }
 
 class _Search extends State {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance =
-        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
-          ..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
+          preferredSize: Size.fromHeight(ScreenUtil().setWidth(140)),
           child: AppBar(
             title: Text(
               "搜索",
@@ -37,12 +40,13 @@ class _Search extends State {
               )
             ],
           )),
-      body: Column(
-        children: <Widget>[RenderHotSearch(), RenderHostorySearch()],
-      ),
+      body: SearchRecommand(),
     );
   }
 
+}
+
+class SearchRecommand extends StatelessWidget {
   Widget RenderHotSearch() {
     return Column(
       children: <Widget>[
@@ -81,7 +85,7 @@ class _Search extends State {
         ),
         Divider(
           height: 2,
-          color: Colors.blueAccent,
+          color: Colors.black12,
         ),
         Container(
           color: Colors.white,
@@ -107,24 +111,24 @@ class _Search extends State {
   List<Widget> RenderTags(List<String> tags) {
     return tags
         .map((item) => GestureDetector(
-              onTap: () {
-                showSearch(
-                    context: context,
-                    delegate: SearchBarDelegate(),
-                    query: "斗罗");
-              },
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.blue),
-                  padding: EdgeInsets.all(8),
-                  margin: EdgeInsets.only(right: 6, top: 6),
-                  child: Text(
-                    item,
-                    style: TextStyle(
-                        background: Paint()..color = Colors.blue, height: 1.2),
-                  )),
-            ))
+      onTap: () {
+//        showSearch(
+//            context: context,
+//            delegate: SearchBarDelegate(),
+//            query: "斗罗");
+      },
+      child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.blue),
+          padding: EdgeInsets.all(8),
+          margin: EdgeInsets.only(right: 6, top: 6),
+          child: Text(
+            item,
+            style: TextStyle(
+                background: Paint()..color = Colors.blue, height: 1.2),
+          )),
+    ))
         .toList();
   }
 
@@ -166,7 +170,7 @@ class _Search extends State {
         ),
         Divider(
           height: 2,
-          color: Colors.blueAccent,
+          color: Colors.black12,
         ),
         Container(
           color: Colors.white,
@@ -191,6 +195,14 @@ class _Search extends State {
           ),
         ),
       ],
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Wrap(
+      //list
+      children: <Widget>[RenderHotSearch(),RenderHostorySearch()],
     );
   }
 }
@@ -236,7 +248,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     print("suggestions" + query);
-    return Text("456");
+    return SearchRecommand();
   }
 
   //这个方法返回一个主题，也就是可以自定义搜索界面的主题样式：
@@ -350,7 +362,7 @@ class _SearchBook extends State {
       separatorBuilder: (context, index) {
         return new Divider(
           height: 1,
-          color: Colors.black54,
+          color: Colors.black12,
         );
       },
     );

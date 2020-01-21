@@ -64,7 +64,7 @@ class _BookShelf extends State with SingleTickerProviderStateMixin {
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       appBar: new PreferredSize(
-          preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
+          preferredSize: Size.fromHeight(ScreenUtil().setWidth(140)),
           child: AppBar(
             automaticallyImplyLeading: false,
             title: new TabBar(
@@ -75,8 +75,7 @@ class _BookShelf extends State with SingleTickerProviderStateMixin {
                 );
               }).toList(),
               indicatorColor: Colors.black,
-              indicatorWeight: ScreenUtil().setWidth(10),
-              indicatorSize: TabBarIndicatorSize.label,
+              indicatorWeight: 2,
               labelColor: Colors.white,
               unselectedLabelColor: Colors.black54,
               labelStyle: TextStyle(fontSize: 14),

@@ -22,6 +22,7 @@ class _HomePage extends State {
   var _hotBooks = new List<Book>();
   var _recommendBooks = new List<Book>();
   var _bannars = new List<Bannar>();
+  var _finish = false;
   var _mPage = 1;
 
   @override
@@ -73,7 +74,13 @@ class _HomePage extends State {
     for (int i = 0; i < res.data['list'].length; i++) {
       _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
     }
-    setState(() {});
+    if (res.data['list'.length] == 0) {
+      setState(() {
+        _finish = true;
+      });
+    }else {
+      setState(() {});
+    }
   }
 
   Widget RenderBooks() {
@@ -83,14 +90,14 @@ class _HomePage extends State {
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
           if (index == _books.length) {
             //判断是不是最后一页
-            if (_mPage < 4) {
+            if (!_finish) {
               //不是最后一页，返回一个loading窗
               return new Container(
                 padding: EdgeInsets.all(16.0),
                 alignment: Alignment.center,
                 child: SizedBox(
                   width: ScreenUtil().setWidth(48),
-                  height: ScreenUtil().setHeight(48),
+                  height: ScreenUtil().setWidth(48),
                   child: CircularProgressIndicator(
                     strokeWidth: 2.0,
                   ),
@@ -114,7 +121,7 @@ class _HomePage extends State {
                 VerticalBook(book:_books[index]),
                 Divider(
                   height: 1,
-                  color: Colors.black26,
+                  color: Colors.black12,
                 ),
               ],
             );
@@ -140,7 +147,7 @@ class _HomePage extends State {
             children: <Widget>[
               Padding(
                 child: Icon(Icons.search),
-                padding: EdgeInsets.all(4),
+                padding: EdgeInsets.all(6),
               ),
               Center(
                   child: Text(
@@ -149,44 +156,9 @@ class _HomePage extends State {
               ))
             ],
           ),
-          height: ScreenUtil().setHeight(80),
-          margin: EdgeInsets.fromLTRB(10, 26, 10, 0),
+          height: ScreenUtil().setWidth(120),
+          margin: EdgeInsets.fromLTRB(10, 28, 10, 0),
         ));
-    return SliverPersistentHeader(
-      pinned: true, //是否固定在顶部
-      floating: true,
-      delegate: _SliverAppBarDelegate(
-        minHeight: 70, //收起的高度
-        maxHeight: 70, //展开的最大高度
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/search');
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.black26, width: 1),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  child: Icon(Icons.search),
-                  padding: EdgeInsets.all(4),
-                ),
-                Center(
-                    child: Text(
-                  "全网书籍搜索",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200),
-                ))
-              ],
-            ),
-            height: 40,
-            margin: EdgeInsets.fromLTRB(5, 25, 0, 5),
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -211,7 +183,7 @@ class _HomePage extends State {
                         <Widget>[
                           //填充顶部
                           Container(
-                            height: ScreenUtil().setHeight(40),
+                            height: ScreenUtil().setWidth(60),
                             color: Color.fromARGB(20, 255, 255, 255),
                           ),
                           HomeSwiper(bannars: _bannars,),
