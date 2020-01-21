@@ -1,9 +1,11 @@
 import 'package:aireder/components/book/crossbook.dart';
+import 'package:aireder/model/BookModel.dart';
 import 'package:flutter/material.dart';
 
 class BookTopic extends StatelessWidget {
-  BookTopic({Key key, this.title}) : super(key: key);
+  BookTopic({Key key, this.title, this.books}) : super(key: key);
   final String title;
+  List<Book> books;
 
   Widget renderHeader(context) {
     return Padding(
@@ -48,17 +50,17 @@ class BookTopic extends StatelessWidget {
   Widget renderBody() {
     return GridView.builder(
       shrinkWrap: true,
-      itemCount: 9,
+      itemCount: books.length,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 8),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
+        mainAxisSpacing: 0,
+        crossAxisSpacing: 0,
         childAspectRatio: 0.55,
       ),
       itemBuilder: (context, index) {
-        return CrossBook();
+        return CrossBook(book:books[index]);
       },
     );
   }

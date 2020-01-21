@@ -1,46 +1,48 @@
+import 'package:aireder/model/BookModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CrossBook extends StatelessWidget {
+  CrossBook({this.book});
+
+  Book book;
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    //默认设置宽度1080px，高度1920px
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, "/book");
+        Navigator.pushNamed(context, "/book", arguments: {"book": book});
       },
-      child: ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: Column(children: <Widget>[
-            Expanded(
-              child: Container(
-                child: Image(
-                  image: new NetworkImage(
-                      'https://api.rbxgg.cn/book/image/9530a3acb52c98d1b795e7f3925d2a62.jpeg'),
-                  width: ScreenUtil().setWidth(210),
-                  height: ScreenUtil().setHeight(330),
-                ),
-              ),
+      child: Container(
+//        color: Colors.blue,
+        child: Column(children: <Widget>[
+          Container(
+//            color: Colors.red,
+            child: Image(
+              fit: BoxFit.fill,
+              image: new NetworkImage(book.cover),
+              width: ScreenUtil().setWidth(300),
+              height: ScreenUtil().setHeight(440),
             ),
-            Container(
-              padding: EdgeInsets.fromLTRB(2, 0, 2, 2),
-              child: Text(
-                "凡人修仙传之仙界篇02",
-                style: TextStyle(fontSize: 14),
-                strutStyle: StrutStyle(height: 1.6),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.fromLTRB(2, 0, 2, 10),
-              child: Text(
-                "作者：天蚕土豆",
-                style: TextStyle(fontSize: 12, color: Colors.black26),
-                strutStyle: StrutStyle(height: 1.6),
-              ),
-            )
-          ])),
+          ),
+          Text(
+            book.title,
+            style: TextStyle(fontSize: 14),
+            strutStyle: StrutStyle(height: 1.6),
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            "作者：" + book.author,
+            style: TextStyle(fontSize: 12, color: Colors.black26),
+            strutStyle: StrutStyle(height: 1.6),
+          )
+        ]),
+        height: ScreenUtil().setHeight(580),
+      ),
     );
   }
 }

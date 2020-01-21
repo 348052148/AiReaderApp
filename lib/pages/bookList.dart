@@ -1,4 +1,6 @@
 import 'package:aireder/components/book/verticalbook.dart';
+import 'package:aireder/model/BookModel.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,8 +13,9 @@ class BookListPage extends StatefulWidget {
 
 class _BookListState extends State<BookListPage> {
   ScrollController _controller = new ScrollController();
-  var _items = new List<String>();
-  var _mPage = 0;
+  var _books = new List<Book>();
+  var _mPage = 1;
+  var _finish = false;
 
   @override
   void initState() {
@@ -37,9 +40,9 @@ class _BookListState extends State<BookListPage> {
         physics: BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           //判断是否构建到了最后一条item
-          if (index == _items.length) {
+          if (index == _books.length) {
             //判断是不是最后一页
-            if (_mPage < 4) {
+            if (!_finish) {
               //不是最后一页，返回一个loading窗
               return new Container(
                 padding: EdgeInsets.all(16.0),
@@ -59,12 +62,14 @@ class _BookListState extends State<BookListPage> {
                 alignment: Alignment.center,
                 child: new Text(
                   '我是有底线的!!!',
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.black54),
                 ),
               );
             }
           } else {
-            return VerticalBook();
+            return VerticalBook(
+              book: _books[index],
+            );
           }
         },
         //分割线构造器
@@ -75,14 +80,12 @@ class _BookListState extends State<BookListPage> {
           );
         },
         //_items.length + 1是为了给最后一行的加载loading留出位置
-        itemCount: _items.length + 1);
+        itemCount: _books.length + 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance =
-        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
-          ..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       appBar: new PreferredSize(
           preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),
@@ -96,34 +99,46 @@ class _BookListState extends State<BookListPage> {
     );
   }
 
-  void getData() {
+  void getData() async {
     //初始数据源
-    for (int i = 0; i < 20; i++) {
-      _items.insert(_items.length, "第${_items.length}条原始数据");
-      print(_items[i]);
+    Response res = await Dio().get(
+        "https://api.rbxgg.cn/api/book/search?attr=all&page=" +
+            _mPage.toString());
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
     }
-  }
-
-  void _retrieveData() {
-    //上拉加载新的数据
-    _mPage++;
-    Future.delayed(Duration(seconds: 2)).then((e) {
-      for (int i = 0; i < 20; i++) {
-        _items.insert(_items.length, "这是新加载的第${_items.length}条数据");
-      }
-      setState(() {});
+    setState(() {
     });
   }
 
-  Future<void> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 2)).then((e) {
+  void _retrieveData() async {
+    //上拉加载新的数据
+    _mPage++;
+    Response res = await Dio().get(
+        "https://api.rbxgg.cn/api/book/search?attr=all&page=" +
+            _mPage.toString());
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
+    }
+    if (res.data['list'].length == 0) {
       setState(() {
-        _mPage = 0;
-        _items.clear();
-        for (int i = 0; i < 20; i++) {
-          _items.insert(_items.length, "第${_items.length}条下拉刷新后的数据");
-        }
+        _finish = true;
       });
+    }else {
+      setState(() {
+      });
+    }
+  }
+
+  Future<void> _onRefresh() async {
+    Response res =
+        await Dio().get("https://api.rbxgg.cn/api/book/search?attr=all&page=1");
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
+    }
+    setState(() {
+      _books.clear();
+      _mPage = 1;
     });
   }
 

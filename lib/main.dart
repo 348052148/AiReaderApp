@@ -1,3 +1,6 @@
+import 'package:aireder/components/book/crossbook.dart';
+import 'package:aireder/components/book/verticalbook.dart';
+import 'package:aireder/model/BookModel.dart';
 import 'package:aireder/pages/bookDetail.dart';
 import 'package:aireder/pages/bookList.dart';
 import 'package:aireder/pages/bookShelf.dart';
@@ -8,9 +11,8 @@ import 'package:aireder/pages/set.dart';
 import 'package:aireder/pages/user.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() => runApp(MyApp());
+void main() =>  runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -32,6 +34,9 @@ class MyApp extends StatelessWidget {
         '/setting': (BuildContext context) => new SetingPage(),
         '/login': (BuildContext context) => new LoginPage(),
       },
+//      home: Scaffold (
+//        body: CrossBook(book: Book.fromMap({'title': '元尊', 'author': '天蚕土豆', 'cover': "https://cdn.static.17k.com/book/189x272/66/50/2945066.jpg-189x272?v=0", "detail":"要么断言表明框架本身存在错误"}),),
+//      )
 //      home: Scaffold(
 //        body: HomePage(),
 //        bottomNavigationBar: BottomNavigationBarView(),

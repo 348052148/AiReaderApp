@@ -1,66 +1,75 @@
+import 'package:aireder/model/BookModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VerticalBook extends StatelessWidget {
+  VerticalBook({this.book});
+
+  Book book;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
+    print(ScreenUtil.screenWidth);
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/book');
+        Navigator.pushNamed(context, '/book', arguments: {"book": book});
       },
       child: Container(
+        alignment: Alignment.center,
         child: Row(
           children: <Widget>[
             Container(
+              alignment: Alignment.center,
+              height: ScreenUtil().setHeight(500),
+              padding: EdgeInsets.only(left: 5),
               child: Image(
+                fit: BoxFit.fill,
                 alignment: Alignment.topLeft,
-                image: new NetworkImage(
-                    'https://api.rbxgg.cn/book/image/9530a3acb52c98d1b795e7f3925d2a62.jpeg'),
-                width: ScreenUtil().setWidth(200),
-                height: ScreenUtil().setHeight(280),
+                image: new NetworkImage(book.cover),
+                width: ScreenUtil().setWidth(300),
+                height: ScreenUtil().setHeight(450),
               ),
-              padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+//              color: Colors.blue,
             ),
-            //详情
+//            详情
             Container(
-              height: ScreenUtil().setHeight(250),
-//              padding: EdgeInsets.fromLTRB(15, 15, 5, 5),
+              width: ScreenUtil().setWidth(1080 - 340),
+              padding: EdgeInsets.only(left: 10),
+//                color: Colors.red,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
+                  Expanded(
                     child: Text(
-                      "元尊",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      book.title,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                       textAlign: TextAlign.left,
                       strutStyle: StrutStyle(height: 2),
                     ),
                   ),
-                  Padding(
-                    child: Text("作者：天蚕土豆"),
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                  Expanded(
+                    child: Text("作者：" + book.author),
                   ),
-                  Container(
-                    width: ScreenUtil().setWidth(465),
+                  Expanded(
                     child: Text(
-                      "介绍:    穷困潦倒的漫画家米航，为了缴付“昂贵”的租金，接受了位面的邀请，" +
-                          "成为穿梭诸天位面的赏金猎人。拯救木叶、逃离长空市、忍神山的战争、藏剑山庄，" +
-                          "米航在一个又一个任务中逐渐成长，同时，他也成为了别人眼中的任务目标。",
+                      book.detail,
                       softWrap: true,
                       strutStyle: StrutStyle(height: 1.6),
                       maxLines: 3,
                     ),
+                    flex: 3,
                   )
                 ],
               ),
             )
           ],
         ),
-        height: ScreenUtil().setHeight(300),
+        height: ScreenUtil().setHeight(450),
+        padding: EdgeInsets.all(5),
         color: Colors.white,
       ),
     );

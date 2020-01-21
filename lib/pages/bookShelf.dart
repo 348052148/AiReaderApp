@@ -1,5 +1,7 @@
 import 'package:aireder/components/book/crossbook.dart';
 import 'package:aireder/components/bottomNavigationBar.dart';
+import 'package:aireder/model/BookModel.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +17,7 @@ class BookShelfPage extends StatefulWidget {
 class _BookShelf extends State with SingleTickerProviderStateMixin {
   TabController mController;
   List<String> tabTitles;
+  List<Book> _books = new List<Book>();
 
   @override
   void initState() {
@@ -25,29 +28,40 @@ class _BookShelf extends State with SingleTickerProviderStateMixin {
       length: tabTitles.length,
       vsync: this,
     );
+    getData();
+  }
+
+  void getData() async {
+    Response res = await Dio().get(
+        "https://api.rbxgg.cn/api/book/search?attr=all&page=1");
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
+    }
+    setState(() {
+    });
   }
 
   Widget renderBody() {
     return GridView.builder(
       shrinkWrap: true,
-      itemCount: 9,
+      itemCount: _books.length,
       physics: NeverScrollableScrollPhysics(),
       padding: EdgeInsets.symmetric(horizontal: 2),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 5,
-        crossAxisSpacing: 5,
+        crossAxisSpacing: 0,
         childAspectRatio: 0.55,
       ),
       itemBuilder: (context, index) {
-        return CrossBook();
+        return CrossBook(book:_books[index]);
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       appBar: new PreferredSize(
           preferredSize: Size.fromHeight(ScreenUtil().setHeight(90)),

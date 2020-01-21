@@ -1,4 +1,6 @@
 import 'package:aireder/components/book/verticalbook.dart';
+import 'package:aireder/model/BookModel.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -227,7 +229,7 @@ class SearchBarDelegate extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     print("result" + query);
-    return SearchBooks();
+    return SearchBooks(keyword: query,);
   }
 
   //显示为搜索内容区域的建议内容。
@@ -246,35 +248,47 @@ class SearchBarDelegate extends SearchDelegate<String> {
 }
 
 class SearchBooks extends StatefulWidget {
+  SearchBooks({this.keyword});
+  String keyword;
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _SearchBook();
+    return _SearchBook(keyword: this.keyword);
   }
 }
 
 class _SearchBook extends State {
-  var _items = new List<String>();
-  var _mPage = 0;
+  _SearchBook({this.keyword});
+  String keyword;
+  var _books = new List<Book>();
+  var _mPage = 1;
   ScrollController _controller = new ScrollController();
 
-  void getData() {
+  void getData() async {
+    //https://api.rbxgg.cn/api/search?keyword=%E5%A4%A9%E4%B8%8B%E6%97%A0%E5%8F%8C&page=1
     //初始数据源
-    for (int i = 0; i < 20; i++) {
-      _items.insert(_items.length, "第${_items.length}条原始数据");
-      print(_items[i]);
+    Response res = await Dio().get(
+        "https://api.rbxgg.cn/api/search?keyword="+this.keyword+"&page=" +
+            _mPage.toString());
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
     }
+    setState(() {
+
+    });
   }
 
-  void _retrieveData() {
+  void _retrieveData() async {
     //上拉加载新的数据
     _mPage++;
-    Future.delayed(Duration(seconds: 2)).then((e) {
-      for (int i = 0; i < 20; i++) {
-        _items.insert(_items.length, "这是新加载的第${_items.length}条数据");
-        print(_items[i]);
-      }
-      setState(() {});
+    Response res = await Dio().get(
+        "https://api.rbxgg.cn/api/search?keyword="+keyword+"&page=" +
+            _mPage.toString());
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
+    }
+    setState(() {
+
     });
   }
 
@@ -301,9 +315,9 @@ class _SearchBook extends State {
       shrinkWrap: true,
       controller: _controller,
       physics: BouncingScrollPhysics(),
-      itemCount: _items.length + 1,
+      itemCount: _books.length + 1,
       itemBuilder: (context, index) {
-        if (index == _items.length) {
+        if (index == _books.length) {
           //判断是不是最后一页
           if (_mPage < 4) {
             //不是最后一页，返回一个loading窗
@@ -330,13 +344,13 @@ class _SearchBook extends State {
             );
           }
         } else {
-          return VerticalBook();
+          return VerticalBook(book: _books[index],);
         }
       },
       separatorBuilder: (context, index) {
         return new Divider(
-          height: 2,
-          color: Colors.blue,
+          height: 1,
+          color: Colors.black54,
         );
       },
     );

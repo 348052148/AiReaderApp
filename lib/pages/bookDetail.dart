@@ -1,4 +1,5 @@
 import 'package:aireder/components/book/verticalbook.dart';
+import 'package:aireder/model/BookModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +12,9 @@ class BookDetailPage extends StatefulWidget {
 }
 
 class _BookDetail extends State {
+  Book book;
+
   Widget RenderBookinfo() {
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
     return Stack(
       children: <Widget>[
         Container(
@@ -23,20 +25,22 @@ class _BookDetail extends State {
             child: Column(
               children: <Widget>[
                 Image.network(
-                  "https://api.rbxgg.cn/book/image/a3d32edbfbff45691b71d1a0b3f89c7c.jpeg",
-                  width: ScreenUtil().setWidth(280),
-                  height: ScreenUtil().setHeight(360),
+                  book.cover,
+                  fit:BoxFit.fill,
+//                  "http://s2.zimgs.cn/ims?kt=url&at=novel&key=aHR0cHM6Ly93d3cuYnh3eC5pby9maWxlcy9hcnRpY2xlL2ltYWdlLzEyMi8xMjI0OTgvMTIyNDk4cy5qcGc=&sign=yx:G1L6fvMNxy8W89_FSiz4UYKoIWU=&tv=320_320&x.jpg",
+                  width: ScreenUtil().setWidth(240),
+                  height: ScreenUtil().setHeight(350),
                 ),
                 Text(
-                  "圣墟",
+                  book.title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 Text(
-                  "辰东",
+                  book.author,
                   style: TextStyle(color: Colors.black54),
                 ),
                 Container(
-                  width: ScreenUtil().setWidth(460),
+                  width: ScreenUtil().setWidth(400),
                   child: Row(
                     children: <Widget>[
                       Padding(
@@ -80,7 +84,7 @@ class _BookDetail extends State {
       color: Colors.white,
       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Text(
-        "《圣墟》是辰东继《完美世界》后的一部新的小说，2016年11月1日正式发布，作者话：新书圣墟开始了，请所有兄弟姐妹继续支持辰东，感谢你们。小说圣墟简介：在破败中崛起在寂灭中复苏。 沧海成尘，雷电枯竭，那一缕幽雾又一次临近大地，世间的枷锁被打开了，一个全新的世界就此揭开神秘的一角……温馨提示：本站闪更由网络作家辰东著写的《圣墟》玄幻魔法小说供书友阅读，你的收藏是对我们最大的鼓励！",
+        book.detail,
         style: TextStyle(
           fontSize: 14,
         ),
@@ -101,8 +105,20 @@ class _BookDetail extends State {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334, allowFontScaling: true)..init(context);
+    dynamic arguments = ModalRoute.of(context).settings.arguments;
+    print(arguments["book"]);
+    if (arguments != null && arguments["book"] != null) {
+      book = arguments['book'];
+    }
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(ScreenUtil().setHeight(100)),
@@ -176,9 +192,9 @@ class _RecommendBooks extends State {
   Widget RenderBody() {
     return Column(
       children: <Widget>[
-        VerticalBook(),
-        VerticalBook(),
-        VerticalBook(),
+//        VerticalBook(),
+//        VerticalBook(),
+//        VerticalBook(),
       ],
     );
   }

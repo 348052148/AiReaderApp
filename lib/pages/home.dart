@@ -2,6 +2,9 @@ import 'package:aireder/components/book/verticalbook.dart';
 import 'package:aireder/components/bookTopic.dart';
 import 'package:aireder/components/bottomNavigationBar.dart';
 import 'package:aireder/components/swiper.dart';
+import 'package:aireder/model/BannarModel.dart';
+import 'package:aireder/model/BookModel.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,12 +18,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State {
   ScrollController _controller = new ScrollController();
-  var _items = new List<String>();
-  var _mPage = 0;
+  var _books = new List<Book>();
+  var _hotBooks = new List<Book>();
+  var _recommendBooks = new List<Book>();
+  var _bannars = new List<Bannar>();
+  var _mPage = 1;
 
   @override
   void initState() {
     super.initState();
+    getHomeBooks();
     getData();
     //给_controller添加监听
     _controller.addListener(() {
@@ -34,34 +41,47 @@ class _HomePage extends State {
     });
   }
 
-  void getData() {
-    //初始数据源
-    for (int i = 0; i < 20; i++) {
-      _items.insert(_items.length, "第${_items.length}条原始数据");
-      print(_items[i]);
+  void getHomeBooks() async {
+    Response res = await Dio().get("https://api.rbxgg.cn/api/home/books");
+    for(int i=0; i < res.data['hot'].length; i++){
+      _hotBooks.insert(_hotBooks.length, Book.fromMap(res.data['hot'][i]));
     }
+    for(int i=0; i < res.data['recommend'].length; i++){
+      _recommendBooks.insert(_recommendBooks.length, Book.fromMap(res.data['recommend'][i]));
+    }
+    for(int i=0; i < res.data['bannars'].length; i++){
+      _bannars.insert(_bannars.length, Bannar.fromMap(res.data['bannars'][i]));
+    }
+    setState(() {});
   }
 
-  void _retrieveData() {
+  void getData() async {
+    //https://api.rbxgg.cn/api/book/search?attr=all&page=1
+    Response res = await Dio().get("https://api.rbxgg.cn/api/book/search?attr=all&page="+_mPage.toString());
+    //print(res.data.toString());
+    //初始数据源
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
+    }
+    setState(() {});
+  }
+
+  void _retrieveData() async {
     //上拉加载新的数据
     _mPage++;
-    Future.delayed(Duration(seconds: 2)).then((e) {
-      for (int i = 0; i < 20; i++) {
-        _items.insert(_items.length, "这是新加载的第${_items.length}条数据");
-      }
-      setState(() {});
-    });
+    Response res = await Dio().get("https://api.rbxgg.cn/api/book/search?attr=all&page="+_mPage.toString());
+    for (int i = 0; i < res.data['list'].length; i++) {
+      _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
+    }
+    setState(() {});
   }
 
   Widget RenderBooks() {
-    ScreenUtil.instance =
-        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
-          ..init(context);
     return new SliverPadding(
       padding: const EdgeInsets.all(0.0),
       sliver: new SliverList(
         delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-          if (index == _items.length) {
+          if (index == _books.length) {
             //判断是不是最后一页
             if (_mPage < 4) {
               //不是最后一页，返回一个loading窗
@@ -91,24 +111,21 @@ class _HomePage extends State {
             return Column(
               children: <Widget>[
                 //分割线构造器
-                VerticalBook(),
+                VerticalBook(book:_books[index]),
                 Divider(
-                  height: 2,
-                  color: Colors.blue,
+                  height: 1,
+                  color: Colors.black26,
                 ),
               ],
             );
 //                    return ListTile(leading: Book(),);
           }
-        }, childCount: _items.length + 1),
+        }, childCount: _books.length + 1),
       ),
     );
   }
 
   Widget RenderSearch() {
-    ScreenUtil.instance =
-        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
-          ..init(context);
     return GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, '/search');
@@ -174,9 +191,7 @@ class _HomePage extends State {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance =
-        ScreenUtil(width: 750, height: 1334, allowFontScaling: true)
-          ..init(context);
+    ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -199,12 +214,14 @@ class _HomePage extends State {
                             height: ScreenUtil().setHeight(40),
                             color: Color.fromARGB(20, 255, 255, 255),
                           ),
-                          HomeSwiper(),
+                          HomeSwiper(bannars: _bannars,),
                           BookTopic(
                             title: "热门",
+                            books: _hotBooks,
                           ),
                           BookTopic(
                             title: "推荐",
+                            books: _recommendBooks,
                           )
                         ],
                       ),
