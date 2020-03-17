@@ -1,6 +1,7 @@
-import 'package:aireder/components/book/verticalbook.dart';
+import 'package:aireder/components/bookList.dart';
 import 'package:aireder/components/bookTopic.dart';
 import 'package:aireder/components/bottomNavigationBar.dart';
+import 'package:aireder/components/searchInput.dart';
 import 'package:aireder/components/swiper.dart';
 import 'package:aireder/model/BannarModel.dart';
 import 'package:aireder/model/BookModel.dart';
@@ -42,23 +43,28 @@ class _HomePage extends State {
     });
   }
 
+  // 获取首页数据
   void getHomeBooks() async {
     Response res = await Dio().get("https://api.rbxgg.cn/api/home/books");
-    for(int i=0; i < res.data['hot'].length; i++){
+    for (int i = 0; i < res.data['hot'].length; i++) {
       _hotBooks.insert(_hotBooks.length, Book.fromMap(res.data['hot'][i]));
     }
-    for(int i=0; i < res.data['recommend'].length; i++){
-      _recommendBooks.insert(_recommendBooks.length, Book.fromMap(res.data['recommend'][i]));
+    for (int i = 0; i < res.data['recommend'].length; i++) {
+      _recommendBooks.insert(
+          _recommendBooks.length, Book.fromMap(res.data['recommend'][i]));
     }
-    for(int i=0; i < res.data['bannars'].length; i++){
+    for (int i = 0; i < res.data['bannars'].length; i++) {
       _bannars.insert(_bannars.length, Bannar.fromMap(res.data['bannars'][i]));
     }
     setState(() {});
   }
 
+  // 获取书籍列表数据
   void getData() async {
     //https://api.rbxgg.cn/api/book/search?attr=all&page=1
-    Response res = await Dio().get("https://api.rbxgg.cn/api/book/search?attr=all&page="+_mPage.toString());
+    Response res = await Dio().get(
+        "https://api.rbxgg.cn/api/book/search?attr=all&page=" +
+            _mPage.toString());
     //print(res.data.toString());
     //初始数据源
     for (int i = 0; i < res.data['list'].length; i++) {
@@ -67,10 +73,12 @@ class _HomePage extends State {
     setState(() {});
   }
 
+  //上拉加载新的书籍列表数据
   void _retrieveData() async {
-    //上拉加载新的数据
     _mPage++;
-    Response res = await Dio().get("https://api.rbxgg.cn/api/book/search?attr=all&page="+_mPage.toString());
+    Response res = await Dio().get(
+        "https://api.rbxgg.cn/api/book/search?attr=all&page=" +
+            _mPage.toString());
     for (int i = 0; i < res.data['list'].length; i++) {
       _books.insert(_books.length, Book.fromMap(res.data['list'][i]));
     }
@@ -78,87 +86,9 @@ class _HomePage extends State {
       setState(() {
         _finish = true;
       });
-    }else {
+    } else {
       setState(() {});
     }
-  }
-
-  Widget RenderBooks() {
-    return new SliverPadding(
-      padding: const EdgeInsets.all(0.0),
-      sliver: new SliverList(
-        delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-          if (index == _books.length) {
-            //判断是不是最后一页
-            if (!_finish) {
-              //不是最后一页，返回一个loading窗
-              return new Container(
-                padding: EdgeInsets.all(16.0),
-                alignment: Alignment.center,
-                child: SizedBox(
-                  width: ScreenUtil().setWidth(48),
-                  height: ScreenUtil().setWidth(48),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                ),
-              );
-            } else {
-              //是最后一页，显示我是有底线的
-              return new Container(
-                padding: EdgeInsets.all(16.0),
-                alignment: Alignment.center,
-                child: new Text(
-                  '我是有底线的!!!',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              );
-            }
-          } else {
-            return Column(
-              children: <Widget>[
-                //分割线构造器
-                VerticalBook(book:_books[index]),
-                Divider(
-                  height: 1,
-                  color: Colors.black12,
-                ),
-              ],
-            );
-//                    return ListTile(leading: Book(),);
-          }
-        }, childCount: _books.length + 1),
-      ),
-    );
-  }
-
-  Widget RenderSearch() {
-    return GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/search');
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.black26, width: 1),
-            color: Colors.white,
-          ),
-          child: Row(
-            children: <Widget>[
-              Padding(
-                child: Icon(Icons.search),
-                padding: EdgeInsets.all(6),
-              ),
-              Center(
-                  child: Text(
-                "全网书籍搜索",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200),
-              ))
-            ],
-          ),
-          height: ScreenUtil().setWidth(120),
-          margin: EdgeInsets.fromLTRB(10, 28, 10, 0),
-        ));
   }
 
   @override
@@ -186,7 +116,9 @@ class _HomePage extends State {
                             height: ScreenUtil().setWidth(60),
                             color: Color.fromARGB(20, 255, 255, 255),
                           ),
-                          HomeSwiper(bannars: _bannars,),
+                          HomeSwiper(
+                            bannars: _bannars,
+                          ),
                           BookTopic(
                             title: "热门",
                             books: _hotBooks,
@@ -199,7 +131,10 @@ class _HomePage extends State {
                       ),
                     ),
                   ),
-                  RenderBooks(),
+//                  RenderBooks(),
+                  BookList(
+                    books: _books,
+                  ),
 //            SliverList()
                 ],
               ),
@@ -209,7 +144,7 @@ class _HomePage extends State {
             left: 0,
             right: 0,
             top: 0,
-            child: RenderSearch(),
+            child: SearchInput(),
           ),
         ],
       ),
